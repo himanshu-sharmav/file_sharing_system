@@ -205,12 +205,8 @@ python manage.py test
 ```
 
 ### Test with Postman
-1. Import the provided Postman collection
-2. Set up environment variables:
-   - `base_url`: `http://localhost:8000/api`
-   - `client_token`: (obtained from login)
-   - `ops_token`: (obtained from login)
-3. Run the requests in sequence
+1. Import the provided Postman collection from the file provided name 'File Sharing System API.postman_collection'
+2. Run the requests in sequence
 
 ### Manual Testing Flow
 1. Register a client user → Verify email → Login

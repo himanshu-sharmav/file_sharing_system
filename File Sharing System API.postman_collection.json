@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "2162257b-8910-422e-9a10-ab381dd2fc59",
+		"name": "File Sharing System API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28217967"
+	},
+	"item": [
+		{
+			"name": "Client Sign Up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"clientuser\",\n  \"email\": \"himan9506492198@gmail.com\",\n  \"password\": \"testpass123\",\n  \"confirm_password\": \"testpass123\",\n  \"first_name\": \"Client\",\n  \"last_name\": \"User\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/signup/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"signup",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Email Verification",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/verify-email/?token=RSypn3x20UwhGHktUOIgdBFWph4-9MF3wOGdrNo6_Fc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"verify-email",
+						""
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "RSypn3x20UwhGHktUOIgdBFWph4-9MF3wOGdrNo6_Fc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"clientuser\",\n  \"password\": \"testpass123\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/login/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Upload",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 24ea06051559b01973e557b7f3939097e90e77b8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/himanshu-dev/Downloads/2200290120081_Himanshu-Sharma_3B.docx"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/upload/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"upload",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List All Files Uploaded",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 8f42c3a3c238ffa5b4fd457b5e8564f5153db511",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/files/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"files",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Secure Download Link",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 8f42c3a3c238ffa5b4fd457b5e8564f5153db511",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/download-file/73db91bd-5474-4c78-9271-0b8f277ced71/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"download-file",
+						"73db91bd-5474-4c78-9271-0b8f277ced71",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Secure File Download",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/secure-download/LQl10_8FNoGhHPQmP_E8_bp7xloxW5WPSUe1duRcQfA/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"secure-download",
+						"LQl10_8FNoGhHPQmP_E8_bp7xloxW5WPSUe1duRcQfA",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

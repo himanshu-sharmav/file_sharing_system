@@ -1,4 +1,4 @@
-```markdown
+
 # Secure File Sharing System
 
 A Django REST API-based secure file sharing system that allows Operations users to upload files and Client users to download them through encrypted URLs.
@@ -308,7 +308,4 @@ For support or questions, please contact:
 - Django community for excellent resources
 - Contributors and testers
 
----
-
 **Note**: This project was created as part of a technical assessment for a Back-End Intern position.
-```

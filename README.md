@@ -302,6 +302,5 @@ For support or questions, please contact:
 
 - Django REST Framework documentation
 - Django community for excellent resources
-- Contributors and testers
 
 **Note**: This project was created as part of a technical assessment for a Back-End Intern position.

@@ -76,23 +76,12 @@ python manage.py createsuperuser
 ### 7. Create Operations User
 
 ```
-python manage.py shell
+python manage.py create_ops_user
 ```
 
-In the Django shell:
+Or with custom credentials:
 ```
-from django.contrib.auth import get_user_model
-User = get_user_model()
-
-# Create Operations user
-ops_user = User.objects.create_user(
-    username='opsuser',
-    email='ops@example.com',
-    password='opspass123',
-    user_type='ops'
-)
-print("Operations user created successfully!")
-exit()
+python manage.py create_ops_user --username myopsuser --email ops@company.com --password mypassword
 ```
 
 ### 8. Run the Server
@@ -132,6 +121,8 @@ Authorization: Token
 |--------|----------|-------------|---------------|-----------|
 | POST | `/upload/` | Upload file | Yes | Operations |
 | GET | `/files/` | List all files | Yes | Client |
+| GET | `/files/?file_type=docx` | Filter files by type | Yes | Client |
+| GET | `/files/?search=report` | Search files by name | Yes | Client |
 | GET | `/download-file//` | Generate download link | Yes | Client |
 | GET | `/secure-download//` | Download file | No | Token-based |
 
@@ -204,6 +195,22 @@ Response:
 python manage.py test
 ```
 
+### Run Specific Test Cases
+```
+python manage.py test file_sharing.tests.UserAuthTestCase
+python manage.py test file_sharing.tests.FileOperationsTestCase
+```
+
+### Test Coverage
+The project includes 7 comprehensive test cases:
+- Client user registration
+- User login (ops and client)
+- File upload by operations user
+- File upload restriction for client users
+- File listing by client users
+- Invalid file type rejection
+- Email verification requirement
+
 ### Test with Postman
 1. Import the provided Postman collection from the file provided name 'File Sharing System API.postman_collection'
 2. Run the requests in sequence
@@ -215,6 +222,15 @@ python manage.py test
 4. List files (client user)
 5. Generate download link (client user)
 6. Download file using the secure URL
+
+### Management Commands
+```bash
+# Create operations user
+python manage.py create_ops_user
+
+# Clean up expired download tokens
+python manage.py cleanup_expired_tokens
+```
 
 ## 🔒 Security Features
 
@@ -250,6 +266,28 @@ file_sharing_system/
 
 ## 🚀 Deployment
 
+### Quick Docker Deployment
+
+```bash
+# Build and run with Docker Compose
+docker-compose up -d
+
+# Check logs
+docker-compose logs -f web
+```
+
+The application will be available at `http://localhost:8000`
+
+### Production Deployment
+
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md)
+
+**Supported Platforms:**
+- **Docker**: Containerized deployment (recommended)
+- **Railway**: Modern platform with automatic GitHub integration
+- **AWS EC2**: Full control with RDS for database
+- **DigitalOcean**: App Platform or Droplets
+
 ### Production Checklist
 
 1. **Environment Variables**
@@ -273,12 +311,11 @@ file_sharing_system/
    - Configure CORS settings
    - Set up proper firewall rules
 
-### Deployment Options
-
-- **Heroku**: Easy deployment with PostgreSQL addon
-- **AWS EC2**: Full control with RDS for database
-- **DigitalOcean**: App Platform or Droplets
-- **Docker**: Containerized deployment
+5. **Maintenance**
+   ```bash
+   # Setup cron job for token cleanup
+   0 2 * * * python manage.py cleanup_expired_tokens
+   ```
 
 ## 🤝 Contributing
 

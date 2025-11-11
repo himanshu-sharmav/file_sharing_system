@@ -88,3 +88,26 @@ class FileOperationsTestCase(APITestCase):
         response = self.client.get(reverse('list_files'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('files', response.data)
+    
+    def test_invalid_file_type_upload(self):
+        """Test that invalid file types are rejected"""
+        self.client.force_authenticate(user=self.ops_user)
+        
+        test_file = SimpleUploadedFile("test.pdf", b"file_content")
+        data = {'file': test_file}
+        response = self.client.post(reverse('upload_file'), data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    
+    def test_email_verification_required_for_client_login(self):
+        """Test that unverified client users cannot login"""
+        unverified_user = User.objects.create_user(
+            username='unverified',
+            email='unverified@test.com',
+            password='testpass123',
+            user_type='client',
+            is_email_verified=False
+        )
+        
+        data = {'username': 'unverified', 'password': 'testpass123'}
+        response = self.client.post(reverse('user_login'), data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

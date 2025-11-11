@@ -120,13 +120,24 @@ def upload_file(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def list_files(request):
-    """List all uploaded files for client users"""
+    """List all uploaded files for client users with pagination and filtering"""
     if request.user.user_type != 'client':
         return Response({
             'error': 'Only Client users can list files'
         }, status=status.HTTP_403_FORBIDDEN)
     
-    files = UploadedFile.objects.all()
+    files = UploadedFile.objects.all().order_by('-uploaded_at')
+    
+    # Filter by file type if provided
+    file_type = request.query_params.get('file_type', None)
+    if file_type:
+        files = files.filter(file_type=file_type)
+    
+    # Search by filename
+    search = request.query_params.get('search', None)
+    if search:
+        files = files.filter(original_filename__icontains=search)
+    
     serializer = UploadedFileSerializer(files, many=True)
     
     return Response({

@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=file_sharing_db
+      - POSTGRES_USER=file_sharing_user
+      - POSTGRES_PASSWORD=securepassword123
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U file_sharing_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py create_ops_user --username opsuser --password opspass123 &&
+             gunicorn file_sharing_system.wsgi:application --bind 0.0.0.0:8000 --workers 3"
+    volumes:
+      - ./media:/app/media
+      - ./staticfiles:/app/staticfiles
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=your-production-secret-key-change-this
+      - ALLOWED_HOSTS=localhost,127.0.0.1
+      - DATABASE_URL=postgresql://file_sharing_user:securepassword123@db:5432/file_sharing_db
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
